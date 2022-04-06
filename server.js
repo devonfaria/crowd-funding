@@ -1,4 +1,5 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const session = require('express-session');
 const routes = require('./controllers');
 
@@ -7,6 +8,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const hbs = exphbs.create({});
 
 const sess = {
   secret: 'Super secret secret',
@@ -17,6 +19,9 @@ const sess = {
     db: sequelize
   })
 };
+
+app.set('handlebars', hbs.engine);
+app.engine('view engine', 'handlebars');
 
 app.use(session(sess));
 
